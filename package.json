@@ -1,12 +1,8 @@
 {
-  "name": "thumbnail-function",
+  "name": "azure-thumbnail-function",
   "version": "1.0.0",
-  "description": "Azure Function to create thumbnails",
-  "scripts": {
-    "build": "echo 'No build step'"
-  },
   "dependencies": {
     "@azure/storage-blob": "^12.24.0",
-    "sharp": "^0.33.5"
+    "jimp": "^0.22.10"
   }
 }
