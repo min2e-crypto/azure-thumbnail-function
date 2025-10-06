@@ -1,8 +1,16 @@
 {
   "name": "thumbnail-function",
   "version": "1.0.0",
+  "description": "Azure Function to create thumbnails",
+  "scripts": {
+    "build": "echo 'No build step'",
+    "preinstall": "npm config set platform win32 && npm config set arch x64"
+  },
   "dependencies": {
-    "@azure/storage-blob": "^12.17.0",
-    "sharp": "^0.33.0"
+    "@azure/storage-blob": "^12.24.0",
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

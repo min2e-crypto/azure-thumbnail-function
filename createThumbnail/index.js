@@ -6,7 +6,13 @@ module.exports = async function (context, inputBlob) {
   context.log('Processing:', blobName);
 
   try {
-    const thumbnail = await sharp(inputBlob).resize(200, 200).toBuffer();
+    const thumbnail = await sharp(inputBlob)
+      .resize(200, 200, {
+        fit: 'cover',
+        position: 'center',
+      })
+      .jpeg({ quality: 80 })
+      .toBuffer();
 
     const blobServiceClient = BlobServiceClient.fromConnectionString(
       process.env.AzureWebJobsStorage
@@ -18,11 +24,14 @@ module.exports = async function (context, inputBlob) {
     const thumbnailName = 'thumb_' + blobName;
     const blockBlobClient = containerClient.getBlockBlobClient(thumbnailName);
 
-    await blockBlobClient.upload(thumbnail, thumbnail.length);
+    await blockBlobClient.upload(thumbnail, thumbnail.length, {
+      blobHTTPHeaders: { blobContentType: 'image/jpeg' },
+    });
 
-    context.log('Success:', thumbnailName);
+    context.log('Success!', thumbnailName);
+    return { status: 'success', filename: thumbnailName };
   } catch (error) {
-    context.log.error('Error:', error.message);
+    context.log.error('Error details:', error);
     throw error;
   }
 };
